@@ -12,6 +12,7 @@ const chapter: ComputedRef<Chapter | undefined> = computed(
     );
   }
 );
+
 const lesson: ComputedRef<Lesson | undefined> = computed(
   (): Lesson | undefined => {
     return chapter.value?.lessons.find(
