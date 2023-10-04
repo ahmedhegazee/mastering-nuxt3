@@ -61,7 +61,19 @@
       </div>
 
       <div class="prose lg:p-12 bg-white rounded-md lg:w-[65ch] p-2 w-full">
-        <NuxtPage />
+        <NuxtErrorBoundary>
+          <!-- ... -->
+          <template #error="{ error }">
+            <p>An error occurred: {{ error }}</p>
+            <button
+              class="hover:cursor-pointer bg-gray-500 text-white font-bold py-1 px-3 rounded"
+              @click="resetError(error)"
+            >
+              Reset
+            </button>
+          </template>
+          <NuxtPage />
+        </NuxtErrorBoundary>
       </div>
     </div>
   </div>
@@ -72,6 +84,9 @@ import { Course } from "~/types/Course";
 import { useCourse } from "../composables/useCourse";
 
 const { chapters } = useCourse();
+const resetError = (error: any) => {
+  error.value = null;
+};
 </script>
 
 <style scoped>
