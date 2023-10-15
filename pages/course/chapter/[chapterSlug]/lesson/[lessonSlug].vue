@@ -3,33 +3,54 @@ import { Chapter, Course, Lesson } from "@/types/Course";
 import { useCourse } from "@/composables/useCourse";
 import VideoPlayer from "~/components/VideoPlayer.vue";
 import LessonCompleteButton from "~/components/LessonCompleteButton.client.vue";
+import { RouteLocationNormalized, NavigationGuardNext } from "#vue-router";
 const course: Course = useCourse();
 const route = useRoute();
-
+// Supabase password =>RuQs6JU1CQCEhBwK
 definePageMeta({
-  validate({ params }): any {
-    const course: Course = useCourse();
-    const chapter: Chapter | undefined = course.chapters.find(
-      (chapter) => chapter.slug === params.chapterSlug
-    );
-    if (!chapter) {
-      return false;
-      // throw createError({
-      //   fatal: true,
-      //   message: `Could not find chapter`,
-      //   statusCode: 404,
-      // });
-    }
-    const lesson: Lesson | undefined = chapter.lessons.find(
-      (lesson) => lesson.slug === params.lessonSlug
-    );
-    if (!lesson) return false;
-    // throw createError({
-    //   message: `Could not find lesson`,
-    //   statusCode: 404,
-    // });
-    return true;
-  },
+  middleware: ["chapter-validate-middleware"],
+  // middleware: function (
+  //   to: RouteLocationNormalized,
+  //   from: RouteLocationNormalized,
+  //   next: NavigationGuardNext
+  // ) {
+  //   const course: Course = useCourse();
+  //   const params = to.params;
+  //   const chapter: Chapter | undefined = course.chapters.find(
+  //     (chapter) => chapter.slug === params.chapterSlug
+  //   );
+  //   if (!chapter) {
+  //     return false;
+  //   }
+  //   const lesson: Lesson | undefined = chapter?.lessons.find(
+  //     (lesson) => lesson.slug === params.lessonSlug
+  //   );
+  //   if (!lesson) return false;
+  //   next;
+  // },
+  // validate({ params }): any {
+  //   const course: Course = useCourse();
+  //   const chapter: Chapter | undefined = course.chapters.find(
+  //     (chapter) => chapter.slug === params.chapterSlug
+  //   );
+  //   if (!chapter) {
+  //     return false;
+  //     // throw createError({
+  //     //   fatal: true,
+  //     //   message: `Could not find chapter`,
+  //     //   statusCode: 404,
+  //     // });
+  //   }
+  //   const lesson: Lesson | undefined = chapter.lessons.find(
+  //     (lesson) => lesson.slug === params.lessonSlug
+  //   );
+  //   if (!lesson) return false;
+  //   // throw createError({
+  //   //   message: `Could not find lesson`,
+  //   //   statusCode: 404,
+  //   // });
+  //   return true;
+  // },
 });
 const chapter: ComputedRef<Chapter | undefined> = computed(
   (): Chapter | undefined => {

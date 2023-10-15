@@ -1,14 +1,16 @@
 <template>
-  <div class="prose">
-    <div v-if="error.statusCode === 404">
-      <h1>404</h1>
-      <p>Page not found</p>
+  <NuxtLayout>
+    <div class="prose">
+      <div v-if="error.statusCode === 404">
+        <h1>404</h1>
+        <p>{{ error.message ?? "Page Not Found" }}</p>
+      </div>
+      <div v-else>
+        <h1>Oops!</h1>
+        <p>Something went wrong</p>
+      </div>
     </div>
-    <div v-else>
-      <h1>Oops!</h1>
-      <p>Something went wrong</p>
-    </div>
-  </div>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts">

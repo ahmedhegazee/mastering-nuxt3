@@ -2,13 +2,16 @@
   <div
     class="lg:p-12 bg-gray-100 w-full h-full min-h-screen flex flex-col items-center p-2"
   >
-    <div class="prose mb-12">
-      <h1>
+    <!-- <div class="prose mb-12">
+      <h1> -->
+    <div class="mb-4 flex justify-between items-center lg:w-[95ch] w-full">
+      <h1 class="text-3xl">
         <span class="font-medium">
           Course:
           <span class="font-bold">Mastering Nuxt 3</span>
         </span>
       </h1>
+      <UserCard />
     </div>
 
     <div class="flex lg:flex-row justify-center flex-grow flex-col w-full">
@@ -16,6 +19,7 @@
         class="prose mr-4 p-8 bg-white rounded-md min-w-[20ch] w-90 max-w-full lg:max-w-[30ch] flex flex-col"
       >
         <h3>Chapters</h3>
+
         <!-- All the lessons for the course listed here -->
         <!-- <ul>
           <li v-for="chapter in course.chapters" :key="chapter.slug">
@@ -82,7 +86,9 @@
 <script setup lang="ts">
 import { Course } from "~/types/Course";
 import { useCourse } from "../composables/useCourse";
-
+definePageMeta({
+  middleware: ["auth"],
+});
 const { chapters } = useCourse();
 const resetError = (error: any) => {
   error.value = null;
