@@ -1,6 +1,6 @@
 
 import { defineStore } from 'pinia'
-import { User } from '../types/User';
+import type { User } from '../types/User';
 
 export const useAuth = defineStore({
   id: 'auth',
@@ -24,7 +24,8 @@ export const useAuth = defineStore({
     logout() {
       this.user = null;
       this.isSignedIn = false;
-      localStorage.removeItem("github_token");
+      useCookie("github_token").value = "";
+      // localStorage.removeItem("github_token");
     }
   },
 })

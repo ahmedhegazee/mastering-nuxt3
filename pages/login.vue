@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { User } from "~/types/User";
+import type { User } from "~/types/User";
 import { useAuth } from "../stores/auth";
 
 import {
@@ -37,7 +37,7 @@ import {
   signInWithCredential,
 } from "firebase/auth";
 const { title } = useCourse();
-const githubToken = useLocalStorage("github_token", "");
+const githubToken = useCookie<string>("github_token", { default: () => "" });
 const { $auth, $loginWithGithubToken } = useNuxtApp();
 const auth = useAuth();
 const provider = new GithubAuthProvider();

@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { Chapter, Course, Lesson } from "@/types/Course";
-import { useCourse } from "@/composables/useCourse";
+import type { Chapter, Course, Lesson } from "@/types/Course";
+// import { useCourse, useChapter, useLesson } from "@/composables/useCourse";
+import useCourse from "@/composables/useCourse";
 import VideoPlayer from "~/components/VideoPlayer.vue";
 import LessonCompleteButton from "~/components/LessonCompleteButton.client.vue";
-import { RouteLocationNormalized, NavigationGuardNext } from "#vue-router";
-const course: Course = useCourse();
+import type { RouteLocationNormalized, NavigationGuardNext } from "#vue-router";
+const course: Course = await useCourse();
 const route = useRoute();
 // Supabase password =>RuQs6JU1CQCEhBwK
 definePageMeta({
@@ -52,50 +53,40 @@ definePageMeta({
   //   return true;
   // },
 });
-const chapter: ComputedRef<Chapter | undefined> = computed(
-  (): Chapter | undefined => {
-    return course.chapters.find(
-      (chapter) => chapter.slug === route.params.chapterSlug
-    );
-  }
-);
+const chapterSlug: string = route.params.chapterSlug as string;
+const lessonSlug: string = route.params.lessonSlug as string;
+const chapter: Maybe<Chapter> = useChapter(chapterSlug);
 
-const lesson: ComputedRef<Lesson | undefined> = computed(
-  (): Lesson | undefined => {
-    return chapter.value?.lessons.find(
-      (lesson) => lesson.slug === route.params.lessonSlug
-    );
-  }
-);
+// const lesson: Maybe<Lesson> = useLesson(chapterSlug, lessonSlug);
+const lesson = (await getLesson(chapterSlug, lessonSlug)) as Lesson;
+const title = computed(() => lesson?.title ?? "");
+const description = computed(() => lesson?.text ?? "");
 useHead({
-  title: `${lesson.value?.title}`,
+  title,
   meta: [
     {
       hid: "og:title",
       property: "og:title",
-      content: `${lesson.value?.title}`,
+      content: title,
     },
     {
       hid: "og:description",
       property: "og:description",
-      content: `${lesson.value?.text}`,
+      content: description,
     },
     {
       hid: "description",
       name: "description",
-      content: lesson.value?.text,
+      content: description,
     },
   ],
 });
 
-// const progress = useState<Array<Array<boolean>>>("progress", () => []);
 const progress = useLocalStorage<Array<Array<boolean>>>("progress", []);
 const chapterIndex = computed(() =>
-  chapter.value?.number ? chapter.value?.number - 1 : 0
+  chapter?.number ? chapter?.number - 1 : 0
 );
-const lessonIndex = computed(() =>
-  lesson.value?.number ? lesson.value?.number - 1 : 0
-);
+const lessonIndex = computed(() => (lesson?.number ? lesson?.number - 1 : 0));
 const isLessonComplete = computed(() => {
   if (!progress.value[chapterIndex.value]) {
     return false;

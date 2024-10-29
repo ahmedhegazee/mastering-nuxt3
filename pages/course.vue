@@ -76,6 +76,7 @@
               Reset
             </button>
           </template>
+          <!-- it works now as layout for all the pages in course directory -->
           <NuxtPage />
         </NuxtErrorBoundary>
       </div>
@@ -84,12 +85,12 @@
 </template>
 
 <script setup lang="ts">
-import { Course } from "~/types/Course";
-import { useCourse } from "../composables/useCourse";
+import type { Course } from "~/types/Course";
+import useCourse from "../composables/useCourse";
 definePageMeta({
   middleware: ["auth"],
 });
-const { chapters } = useCourse();
+const { chapters } = await useCourse();
 const resetError = (error: any) => {
   error.value = null;
 };

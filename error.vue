@@ -3,7 +3,7 @@
     <div class="prose">
       <div v-if="error.statusCode === 404">
         <h1>404</h1>
-        <p>{{ error.message ?? "Page Not Found" }}</p>
+        <p>{{ error.statusMessage ?? "Page Not Found" }}</p>
       </div>
       <div v-else>
         <h1>Oops!</h1>
@@ -15,6 +15,7 @@
 
 <script setup lang="ts">
 const error: any = useError();
+console.log(error.value);
 </script>
 
 <style scoped></style>

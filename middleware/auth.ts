@@ -1,5 +1,5 @@
 import { useAuth } from "~/stores/auth"
-import { User } from "@supabase/gotrue-js";
+import type { User } from "@supabase/gotrue-js";
 export default defineNuxtRouteMiddleware(async (to, from) => {
     // return;
     // const user: Ref<User | null> = useSupabaseUser();
@@ -14,7 +14,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     if (auth.isSigned || to.params.chapterSlug == '1-chapter-1')
         return;
-    const githubToken = useLocalStorage("github_token", "");
+    const githubToken = useCookie("github_token", { default: () => "" });
     if (githubToken.value === "") {
         return navigateTo(`/login?redirect=${to.path}`);
     }

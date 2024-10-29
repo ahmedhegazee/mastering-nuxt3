@@ -1,20 +1,25 @@
+import { MetaBase } from "./CourseMeta";
+
 export type Course = {
   title: string;
-  chapters: Chapter[];
+  chapters: ChapterWithPath[];
 }
-export type Chapter = {
-  title: string;
-  slug: string;
-  number: number;
+export type Chapter = MetaBase & {
   lessons: Lesson[];
 }
-export type Lesson = {
-  title: string;
-  slug: string;
-  number: number;
+export type ChapterWithPath = MetaBase & {
+  lessons: LessonWithPath[];
+}
+export type Lesson = MetaBase & {
+
   downloadUrl: string;
   videoId: number;
   text: string;
   sourceUrl?: string | null;
+
+}
+
+
+export type LessonWithPath = Lesson & {
   path: string;
 }

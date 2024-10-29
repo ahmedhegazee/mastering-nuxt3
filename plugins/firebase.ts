@@ -1,7 +1,7 @@
 import { FirebaseOptions, initializeApp } from "firebase/app";
 import { GithubAuthProvider, getAuth, signInWithCredential } from "firebase/auth";
 import { useAuth } from "~/stores/auth";
-import { User } from "~/types/User";
+import type { User } from "~/types/User";
 // import { getFirestore } from 'firebase/firestore';
 // import { getAnalytics } from "firebase/analytics";
 export default defineNuxtPlugin((nuxtApp) => {

@@ -1,5 +1,16 @@
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  nitro: {
+    prerender: {
+      routes: [
+        // '/landing' //prerender the landing page which is a static page and doesn't contain any dynamic data or functionality
+      ],
+    }
+  },
+  vite: {
+    plugins: [ViteImageOptimizer()]
+  },
   devtools: {
     enabled: true,
 

@@ -1,5 +1,5 @@
 import { useAuth } from "~/stores/auth"
-import { User } from "@supabase/gotrue-js";
+import type { User } from "@supabase/gotrue-js";
 export default defineNuxtRouteMiddleware(async (to, from) => {
 
     if (process.server) return;
